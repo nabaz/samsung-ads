@@ -1,3 +1,36 @@
+%% =============================================================================
+%% adgear_fun — HTTP/1.1 Response Parser
+%% =============================================================================
+%%
+%% OVERVIEW
+%%   Parses a raw HTTP/1.1 response binary into {Status, Reason, Headers, Body}.
+%%
+%% API
+%%   http_parser(Binary)  -- parse a complete response in one shot
+%%   test/0               -- validate against three canned responses
+%%   bench/0              -- 10 000-iteration average parse time
+%%
+%% DESIGN
+%%   State machine (3 phases: status_line → headers → body)
+%%   - Streaming-capable: feed fragmented chunks via stream/2; returns
+%%     {done,...} | {more, State} | {error, Reason}
+%%   - O(N): the parser never backtracks; each byte is visited exactly once
+%%   - Sub-binaries: binary:split/2 slices without copying (BEAM optimised)
+%%   - O(1) header accumulation via prepend; returned in reverse wire order
+%%
+%% RFC COMPLIANCE & SECURITY
+%%   - Case-insensitive Content-Length lookup via ASCII fold (no library deps)
+%%   - Known reason phrases mapped to hardcoded atoms (ok, no_content, etc.)
+%%   - Unknown phrases use binary_to_existing_atom/2 — safe against atom
+%%     table exhaustion (DoS) from untrusted server responses
+%%   - Incomplete input surfaces as {parse_error, incomplete_response}
+%%
+%% HOW TO RUN
+%%   erlc adgear_fun.erl
+%%   erl -noshell -eval "adgear_fun:test(), adgear_fun:bench(), halt()"
+%%
+%% =============================================================================
+
 -module(adgear_fun).
 
 -export([
