@@ -1,0 +1,14 @@
+# Erlang compiled output
+*.beam
+erl_crash.dump
+
+# Elixir compiled output
+*.ez
+_build/
+
+# Editor/OS noise
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
