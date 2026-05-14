@@ -1,6 +1,6 @@
 # HTTP/1.1 Response Parser (Erlang & Elixir)
 
-This repository contains a robust, streaming-capable HTTP/1.1 response parser implemented in both Erlang (`adgear_fun.erl`) and Elixir (`adgear_fun.ex`). It was developed as a Staff Software Engineer take-home assessment, prioritizing efficiency, idiomatic BEAM patterns, and RFC 2616 compliance.
+This repository contains a robust, streaming-capable HTTP/1.1 response parser implemented in both Erlang (`adgear_fun.erl`) and Elixir (`adgear_fun.ex`). It was developed as a prioritizing efficiency, idiomatic BEAM patterns, and RFC 2616 compliance.
 
 ## Implementation Choices
 
